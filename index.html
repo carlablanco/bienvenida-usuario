@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje de Bienvenida</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #welcomeMessage {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hola!</h1>
+        <form id="userDataForm">
+            <label for="firstName">Nombre:</label>
+            <input type="text" id="firstName" required><br><br>
+            <label for="dob">Fecha de Nacimiento:</label>
+            <input type="date" id="dob" max="<?php echo date('Y-m-d'); ?>" required><br>
+            <small id="dobError" style="color: red; display: none;">La fecha de nacimiento no puede ser posterior a hoy.</small><br>
+            <button type="submit">Enviar</button>
+        </form>
+        <p id="welcomeMessage"></p>
+    </div>
+    <script>
+        document.getElementById("userDataForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Obtener datos formulario
+            const firstName = document.getElementById("firstName").value;
+            const dob = new Date(document.getElementById("dob").value);
+            const hoy = new Date();
+            const diasVividos = Math.floor((hoy - dob) / (1000 * 60 * 60 * 24));
+
+            // Validar que la fecha de nacimiento no sea mayor a hoy
+            if (dob > hoy) {
+                document.getElementById("dobError").style.display = "block";
+                return;
+            } else {
+                document.getElementById("dobError").style.display = "none";
+            }
+
+            // Mostrar mensaje
+            const welcomeMessage = document.getElementById("welcomeMessage");
+            welcomeMessage.textContent = `Bienvenid@ ${firstName}! Llevás viviendo ${diasVividos} días.`;
+        });
+    </script>
+</body>
+</html>
